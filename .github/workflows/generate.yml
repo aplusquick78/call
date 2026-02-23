@@ -26,31 +26,38 @@ jobs:
           python - <<EOF
           import yaml
           import os
+          import shutil
 
-          # 1. towns.yml 읽기
+          if os.path.exists('_towns'):
+              shutil.rmtree('_towns')
+          os.makedirs('_towns')
+
           with open('_data/towns.yml', 'r', encoding='utf-8') as f:
               data = yaml.safe_load(f)
 
-          # 2. 페이지 생성 로직
           for region_group in data:
-              region = region_group['region']
-              for district in region_group['districts']:
-                  dist_name = district['name']
-                  for town in district['towns']:
-                      # [중요] 주소 구조: 동이름퀵서비스 (중복 시 구이름 붙임)
-                      folder_name = f"{town}퀵서비스"
+              reg = region_group['region']
+              # 1. 시/도 페이지 생성 (예: 인천퀵서비스)
+              reg_name = reg.replace(" ", "")
+              with open(f"_towns/{reg_name}.md", 'w', encoding='utf-8') as f:
+                  f.write(f"---\ntown: {reg_name}\ntown_full: {reg}\n---")
+
+              for dist_group in region_group['districts']:
+                  dist = dist_group['name']
+                  # 2. 구/군 페이지 생성 (예: 부평구퀵서비스)
+                  dist_name = dist.replace(" ", "")
+                  if not os.path.exists(f"_towns/{dist_name}.md"):
+                      with open(f"_towns/{dist_name}.md", 'w', encoding='utf-8') as f:
+                          f.write(f"---\ntown: {dist_name}\ntown_full: {reg} {dist}\n---")
+
+                  for town in dist_group['towns']:
+                      # 3. 동네 페이지 생성 (기존과 동일)
+                      filename = f"_towns/{town}.md"
+                      if os.path.exists(filename):
+                          filename = f"_towns/{dist}{town}.md"
                       
-                      # 중복 이름 처리 (예: 신사동)
-                      if os.path.exists(folder_name):
-                          folder_name = f"{dist_name}{town}퀵서비스"
-                      
-                      os.makedirs(folder_name, exist_ok=True)
-                      
-                      # 파일 내용 (사장님 layout: board 적용)
-                      content = f"---\nlayout: board\ntown: {town}\ntown_full: {region} {dist_name} {town}\n---"
-                      
-                      with open(f"{folder_name}/index.html", 'w', encoding='utf-8') as f:
-                          f.write(content)
+                      with open(filename, 'w', encoding='utf-8') as f:
+                          f.write(f"---\ntown: {town}\ntown_full: {reg} {dist} {town}\n---")
           EOF
 
       - name: Commit and Push changes
