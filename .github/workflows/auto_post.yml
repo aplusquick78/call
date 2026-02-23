@@ -2,8 +2,9 @@ name: A-Plus Auto Poster
 
 on:
   schedule:
+    # 매시간 0분(정각)에 실행 (하루 24번 포스팅)
     - cron: '0 * * * *'
-  workflow_dispatch:
+  workflow_dispatch: # 사장님이 누를 때마다 무조건 하나 더 생성
 
 jobs:
   build:
@@ -23,15 +24,14 @@ jobs:
       - name: 로봇 가동
         run: python autobot.py
         
-      - name: 변경사항 확인 및 푸시
+      - name: 변경사항 저장 및 푸시
         run: |
           git config --global user.name "AutoBot"
           git config --global user.email "bot@8222quick.com"
           git add _posts/*.md
-          # 파일이 새로 생겼을 때만 커밋하도록 설정
           if [ -n "$(git status --porcelain)" ]; then
             git commit -m "신속한 배송 자동 포스팅 완료"
             git push
           else
-            echo "새로 생성된 포스팅 파일이 없습니다."
+            echo "새로운 포스팅이 없습니다."
           fi
