@@ -1,16 +1,16 @@
 name: Generate Town Pages
 
 on:
-  workflow_dispatch:
   push:
     paths:
       - '_data/towns.yml'
+  workflow_dispatch:
 
 jobs:
-  generate:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -26,49 +26,57 @@ jobs:
           python - <<EOF
           import yaml
           import os
-          import shutil
 
-          # 1. _towns 폴더 초기화
-          if os.path.exists('_towns'):
-              shutil.rmtree('_towns')
-          os.makedirs('_towns')
-
+          # 1. towns.yml 읽기
           with open('_data/towns.yml', 'r', encoding='utf-8') as f:
               data = yaml.safe_load(f)
 
+          # 2. 페이지 생성 로직
           for region_group in data:
-              reg = region_group['region']
-              # 시/도 (예: 인천광역시) -> 괄호나 공백 제거
-              reg_clean = reg.split('(')[0].strip()
-              with open(f"_towns/{reg_clean}.md", 'w', encoding='utf-8') as f:
-                  f.write(f"---\ntown: {reg_clean}\ntown_full: {reg}\n---")
+              region = region_group['region']
+              # [추가] 시/도 페이지 생성 (예: 인천광역시 -> 인천퀵서비스)
+              reg_name = region.replace("광역시", "").replace("특별시", "").replace("경기도", "경기").strip()
+              reg_folder = f"{reg_name}퀵서비스"
+              os.makedirs(reg_folder, exist_ok=True)
+              with open(f"{reg_folder}/index.html", 'w', encoding='utf-8') as f:
+                  f.write(f"---\nlayout: board\ntown: {reg_name}\ntown_full: {region}\n---")
 
-              for dist_group in region_group['districts']:
-                  dist = dist_group['name']
-                  dist_clean = dist.strip()
+              for district in region_group['districts']:
+                  dist_name = district['name'].strip()
+                  # [추가] 구/군 페이지 생성 (예: 안양시 -> 안양퀵서비스, 강남구 -> 강남구퀵서비스)
+                  # '시'로 끝나는 것만 '시'를 떼고, '구'나 '군'은 유지
+                  d_short = dist_name.replace("시", "") if dist_name.endswith("시") else dist_name
+                  dist_folder = f"{d_short}퀵서비스"
                   
-                  # 구/군 생성
-                  dist_filename = f"_towns/{dist_clean}.md"
-                  if os.path.exists(dist_filename):
-                      dist_filename = f"_towns/{reg_clean}{dist_clean}.md"
+                  # 중복 방지 (예: 강서구 -> 서울강서구퀵서비스)
+                  if os.path.exists(dist_folder) and dist_folder != reg_folder:
+                      dist_folder = f"{reg_name}{d_short}퀵서비스"
                   
-                  with open(dist_filename, 'w', encoding='utf-8') as f:
-                      f.write(f"---\ntown: {dist_clean}\ntown_full: {reg} {dist}\n---")
+                  os.makedirs(dist_folder, exist_ok=True)
+                  with open(f"{dist_folder}/index.html", 'w', encoding='utf-8') as f:
+                      f.write(f"---\nlayout: board\ntown: {d_short}\ntown_full: {region} {dist_name}\n---")
 
-                  for town in dist_group['towns']:
-                      town_clean = town.strip()
-                      filename = f"_towns/{town_clean}.md"
-                      if os.path.exists(filename):
-                          filename = f"_towns/{dist_clean}{town_clean}.md"
+                  for town in district['towns']:
+                      # 동네 페이지 생성 (기존 로직 유지)
+                      town_name = town.strip()
+                      folder_name = f"{town_name}퀵서비스"
                       
-                      with open(filename, 'w', encoding='utf-8') as f:
-                          f.write(f"---\ntown: {town_clean}\ntown_full: {reg} {dist} {town}\n---")
+                      # 중복 이름 처리 (예: 신사동)
+                      if os.path.exists(folder_name):
+                          folder_name = f"{d_short}{town_name}퀵서비스"
+                      
+                      os.makedirs(folder_name, exist_ok=True)
+                      
+                      content = f"---\nlayout: board\ntown: {town_name}\ntown_full: {region} {dist_name} {town_name}\n---"
+                      
+                      with open(f"{folder_name}/index.html", 'w', encoding='utf-8') as f:
+                          f.write(content)
           EOF
 
       - name: Commit and Push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add _towns/
-          git commit -m "Auto-generate city and town pages" || exit 0
+          git add .
+          git commit -m "Automated town, district, and region pages generation" || exit 0
           git push
