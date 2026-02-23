@@ -44,7 +44,7 @@ def create_post():
     today_str = now.strftime("%Y-%m-%d")
 
     # 1️⃣ 시간 제한: 08시 ~ 22시 사이만 작동
-    if not (8 <= current_hour <= 22):
+    if not (8 <= current_hour <= 24):
         print(f"🚫 현재 {current_hour}시: 포스팅 가능 시간이 아닙니다. (08~22시 사이만 작동)")
         return
 
