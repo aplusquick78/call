@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <title>퀵서비스 요금표 | 에이플러스퀵 거리별 비용 안내</title>
+    <meta name="description" content="퀵서비스 이용 요금 안내. 오토바이, 다마스, 라보 거리별 예상 비용 및 야간/휴일 할증 정보 제공.">
+    <link rel="canonical" href="https://jongam.8222quick.com/money.html">
+
+    <style>
+        :root { 
+            --body-bg: #f4f7fa; 
+            --card-bg: #ffffff; 
+            --main-blue: #0056b3; 
+            --accent-red: #ce0000;
+            --text-main: #333;
+        }
+
+        body { 
+            margin: 0; padding: 0; 
+            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; 
+            line-height: 1.6; color: var(--text-main); 
+            background-color: var(--body-bg); 
+        }
+
+        .wrapper { 
+            width: 100%; max-width: 650px; 
+            margin: 40px auto; padding: 30px; 
+            box-sizing: border-box; background-color: var(--card-bg); 
+            border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        @media (max-width: 650px) {
+            .wrapper { margin: 0; border-radius: 0; padding: 20px; }
+        }
+
+        header { text-align: center; margin-bottom: 25px; }
+        header h1 { font-size: 1.5rem; color: var(--main-blue); margin: 0; }
+        
+        .price-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            font-size: 0.95rem;
+        }
+        .price-table th { 
+            background: #f8f9fa; border-bottom: 2px solid var(--main-blue); 
+            padding: 12px; text-align: center; 
+        }
+        .price-table td { 
+            padding: 12px; border-bottom: 1px solid #eee; text-align: center; 
+        }
+        .price-table tr:hover { background: #fdfdfd; }
+
+        .call-btn { 
+            display: block; background: var(--accent-red); color: #fff; 
+            text-align: center; padding: 15px; border-radius: 10px; 
+            text-decoration: none; font-weight: bold; font-size: 1.2rem;
+            margin-top: 30px; box-shadow: 0 5px 15px rgba(206,0,0,0.2);
+        }
+
+        .notice { 
+            background: #fff9f9; border: 1px solid #ffebeb; 
+            padding: 15px; border-radius: 10px; margin-top: 25px; font-size: 0.85rem; 
+        }
+        .notice h3 { margin: 0 0 10px 0; font-size: 1rem; color: var(--accent-red); }
+        .notice ul { padding-left: 20px; margin: 0; color: #666; }
+
+        .back-link { 
+            display: block; text-align: center; margin-top: 20px; 
+            color: #888; text-decoration: none; font-size: 0.9rem; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <header>
+        <h1>📊 퀵서비스 요금 안내</h1>
+        <p style="font-size: 0.9rem; color: #777;">합리적이고 투명한 에이플러스 표준 요금</p>
+    </header>
+
+    <table class="price-table">
+        <thead>
+            <tr>
+                <th>운송거리</th>
+                <th>오토바이</th>
+                <th>다마스</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>5km 이내</td>
+                <td>10,000원~</td>
+                <td>30,000원~</td>
+            </tr>
+            <tr>
+                <td>10km 이내</td>
+                <td>20,000원~</td>
+                <td>35,000원~</td>
+            </tr>
+            <tr>
+                <td>20km 이내</td>
+                <td>30,000원~</td>
+                <td>45,000원~</td>
+            </tr>
+            <tr>
+                <td>30km 이내</td>
+                <td>40,000원~</td>
+                <td>60,000원~</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="notice">
+        <h3>⚠️ 이용 안내 및 유의사항</h3>
+        <ul>
+            <li>상기 요금은 인접 지역 표준 예상가입니다.</li>
+            <li>기상 상황(폭우, 폭설), 출퇴근 시간대 정체에 따라 변동될 수 있습니다.</li>
+            <li>야간/새벽(20시~익일 08시) 및 공휴일은 할증이 적용됩니다.</li>
+            <li>과적이나 대기 시간이 길어질 경우 추가 비용이 발생할 수 있습니다.</li>
+        </ul>
+    </div>
+
+    <a href="tel:1661-4262" class="call-btn">
+        📞 정확한 요금 문의: 1661-4262
+    </a>
+
+    <a href="/" class="back-link">← 홈으로</a>
+
+    <footer style="text-align: center; margin-top: 40px; font-size: 0.8rem; color: #ccc;">
+        에이플러스 퀵서비스 | 서울 경기 전지역 24시 실시간 관제
+    </footer>
+</div>
+
+</body>
+</html>
