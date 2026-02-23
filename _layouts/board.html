@@ -192,10 +192,6 @@ layout: null
    <section class="info-section">
         <h2>📍 {{ page.town_full }} 📍 에이플러스퀵 서울 경기 전지점 목록</h2>
         
-        <div class="post-content" style="margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 1rem; line-height: 1.8;">
-            {{ content }}
-        </div>
-
         <p>
             에이플러스퀵은 <strong>{{ page.town_full }}</strong> 전역에서 <strong>신속한 배송을 원칙으로 하여</strong> 고객님의 물품을 가장 효율적인 경로로 전달합니다.
         </p>
@@ -203,7 +199,7 @@ layout: null
         <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
 
         <div class="town-links">
-            <h4 style="margin-bottom: 15px;">📍 지역별 퀵서비스 바로가기</h4>
+            <h4 style="margin-bottom: 15px;">📍 지역별 에이플러스 퀵서비스 바로가기</h4>
             <ul style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
                 {% for region_group in site.data.towns %}
                     {% for district in region_group.districts %}
@@ -228,5 +224,6 @@ layout: null
 </div>
 </body>
 </html>
+
 
 
