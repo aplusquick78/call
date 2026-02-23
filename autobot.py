@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import datetime
 import random
 import os
+import sys
 
 # 서울/경기 지역 데이터
 seoul_gu = ["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"]
@@ -37,26 +38,41 @@ def get_naver_text(keyword):
         return f"{keyword} 전문 서비스를 제공하고 있습니다."
 
 def create_post():
-    # 💡 town, town_full 변수를 분리해서 가져옵니다.
+    # [설정] 한국 시간 기준 현재 시간 구하기
+    now = datetime.datetime.utcnow() + datetime.timedelta(hours=9)
+    current_hour = now.hour
+    today_str = now.strftime("%Y-%m-%d")
+
+    # 1️⃣ 시간 제한: 08시 ~ 22시 사이만 작동
+    if not (8 <= current_hour <= 22):
+        print(f"🚫 현재 {current_hour}시: 포스팅 가능 시간이 아닙니다. (08~22시 사이만 작동)")
+        return
+
+    # 2️⃣ 개수 제한: 오늘 이미 10개가 생성되었는지 확인
+    post_dir = '_posts'
+    if not os.path.exists(post_dir):
+        os.makedirs(post_dir)
+        
+    today_posts = [f for f in os.listdir(post_dir) if f.startswith(today_str)]
+    
+    if len(today_posts) >= 10:
+        print(f"✅ 오늘 이미 {len(today_posts)}개의 포스팅을 완료했습니다. 내일 다시 시작합니다.")
+        return
+
+    # --- 여기서부터 포스팅 생성 로직 ---
     town, town_full, service = get_random_keyword()
     selected_keyword = f"{town_full} {service}"
     
-    # 서버 시간 이슈 방지를 위해 날짜 설정
-    now = datetime.datetime.now()
-    date_str = now.strftime("%Y-%m-%d")
-    # 파일명 중복을 피하되 정렬이 깨지지 않게 시간 추가
     time_tag = now.strftime("%H%M%S")
-    
     file_title = selected_keyword.replace(" ", "-")
-    file_path = f"_posts/{date_str}-{time_tag}-{file_title}.md"
+    file_path = f"_posts/{today_str}-{time_tag}-{file_title}.md"
 
     content_text = get_naver_text(selected_keyword)
 
-    # 사장님 사이트 레이아웃 변수(town, town_full)를 상단에 추가했습니다.
     post_data = f"""---
 layout: post
 title: "{selected_keyword} 완료 리포트"
-date: {date_str}
+date: {today_str}
 town: "{town}"
 town_full: "{town_full}"
 ---
@@ -83,7 +99,7 @@ town_full: "{town_full}"
 
     with open(file_path, "w", encoding="utf-8") as f:
         f.write(post_data)
-    print(f"✅ [{selected_keyword}] 포스팅 생성 완료!")
+    print(f"🚀 [{selected_keyword}] 포스팅 생성 완료! (오늘 {len(today_posts) + 1}/10)")
 
 if __name__ == "__main__":
     create_post()
