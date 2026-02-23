@@ -1,16 +1,16 @@
 name: Generate Town Pages
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - '_data/towns.yml'
-  workflow_dispatch:
 
 jobs:
-  build:
+  generate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -28,6 +28,7 @@ jobs:
           import os
           import shutil
 
+          # 1. _towns 폴더 초기화
           if os.path.exists('_towns'):
               shutil.rmtree('_towns')
           os.makedirs('_towns')
@@ -37,33 +38,37 @@ jobs:
 
           for region_group in data:
               reg = region_group['region']
-              # 1. 시/도 페이지 생성 (예: 인천퀵서비스)
-              reg_name = reg.replace(" ", "")
-              with open(f"_towns/{reg_name}.md", 'w', encoding='utf-8') as f:
-                  f.write(f"---\ntown: {reg_name}\ntown_full: {reg}\n---")
+              # 시/도 (예: 인천광역시) -> 괄호나 공백 제거
+              reg_clean = reg.split('(')[0].strip()
+              with open(f"_towns/{reg_clean}.md", 'w', encoding='utf-8') as f:
+                  f.write(f"---\ntown: {reg_clean}\ntown_full: {reg}\n---")
 
               for dist_group in region_group['districts']:
                   dist = dist_group['name']
-                  # 2. 구/군 페이지 생성 (예: 부평구퀵서비스)
-                  dist_name = dist.replace(" ", "")
-                  if not os.path.exists(f"_towns/{dist_name}.md"):
-                      with open(f"_towns/{dist_name}.md", 'w', encoding='utf-8') as f:
-                          f.write(f"---\ntown: {dist_name}\ntown_full: {reg} {dist}\n---")
+                  dist_clean = dist.strip()
+                  
+                  # 구/군 생성
+                  dist_filename = f"_towns/{dist_clean}.md"
+                  if os.path.exists(dist_filename):
+                      dist_filename = f"_towns/{reg_clean}{dist_clean}.md"
+                  
+                  with open(dist_filename, 'w', encoding='utf-8') as f:
+                      f.write(f"---\ntown: {dist_clean}\ntown_full: {reg} {dist}\n---")
 
                   for town in dist_group['towns']:
-                      # 3. 동네 페이지 생성 (기존과 동일)
-                      filename = f"_towns/{town}.md"
+                      town_clean = town.strip()
+                      filename = f"_towns/{town_clean}.md"
                       if os.path.exists(filename):
-                          filename = f"_towns/{dist}{town}.md"
+                          filename = f"_towns/{dist_clean}{town_clean}.md"
                       
                       with open(filename, 'w', encoding='utf-8') as f:
-                          f.write(f"---\ntown: {town}\ntown_full: {reg} {dist} {town}\n---")
+                          f.write(f"---\ntown: {town_clean}\ntown_full: {reg} {dist} {town}\n---")
           EOF
 
       - name: Commit and Push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "Automated town pages generation" || exit 0
+          git add _towns/
+          git commit -m "Auto-generate city and town pages" || exit 0
           git push
