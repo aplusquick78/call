@@ -1,39 +1,62 @@
-import yaml
-import os
+name: Generate Town Pages
 
-# 1. 설정: 데이터 읽기
-with open('_data/towns.yml', 'r', encoding='utf-8') as f:
-    data = yaml.safe_load(f)
+on:
+  push:
+    paths:
+      - '_data/towns.yml'
+  workflow_dispatch:
 
-# 2. 파일 생성 로직
-count = 0
-for region_group in data:
-    region = region_group['region']
-    for district in region_group['districts']:
-        district_name = district['name']
-        for town in district['towns']:
-            # 사장님이 원하시는 새로운 폴더 구조: 개포동퀵서비스/
-            folder_name = f"{town}퀵서비스"
-            
-            # 만약 이름이 겹치는 동네(신사동 등)가 있으면 구 이름을 붙여서 충돌 방지
-            if os.path.exists(folder_name):
-                folder_name = f"{district_name}{town}퀵서비스"
-            
-            # 폴더 생성
-            if not os.path.exists(folder_name):
-                os.makedirs(folder_name)
-            
-            # index.html 내용 (layout: board 유지)
-            content = f"""---
-layout: board
-town: {town}
-town_full: {region} {district_name} {town}
----"""
-            
-            # 파일 쓰기
-            with open(f"{folder_name}/index.html", 'w', encoding='utf-8') as f:
-                f.write(content)
-            
-            count += 1
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-print(f"✅ 작업 완료! 총 {count}개의 '동네이름퀵서비스' 폴더와 index.html이 생성되었습니다.")
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Run Generator Script
+        run: |
+          python - <<EOF
+          import yaml
+          import os
+
+          # 1. towns.yml 읽기
+          with open('_data/towns.yml', 'r', encoding='utf-8') as f:
+              data = yaml.safe_load(f)
+
+          # 2. 페이지 생성 로직
+          for region_group in data:
+              region = region_group['region']
+              for district in region_group['districts']:
+                  dist_name = district['name']
+                  for town in district['towns']:
+                      # [중요] 주소 구조: 동이름퀵서비스 (중복 시 구이름 붙임)
+                      folder_name = f"{town}퀵서비스"
+                      
+                      # 중복 이름 처리 (예: 신사동)
+                      if os.path.exists(folder_name):
+                          folder_name = f"{dist_name}{town}퀵서비스"
+                      
+                      os.makedirs(folder_name, exist_ok=True)
+                      
+                      # 파일 내용 (사장님 layout: board 적용)
+                      content = f"---\nlayout: board\ntown: {town}\ntown_full: {region} {dist_name} {town}\n---"
+                      
+                      with open(f"{folder_name}/index.html", 'w', encoding='utf-8') as f:
+                          f.write(content)
+          EOF
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Automated town pages generation" || exit 0
+          git push
