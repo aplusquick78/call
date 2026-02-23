@@ -1,0 +1,210 @@
+---
+layout: null
+---
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <title>{{ page.town_full }} 퀵서비스 | 24시 에이플러스 {{ page.town }}퀵</title>
+    <meta name="description" content="{{ page.town_full }} 퀵서비스 전문. {{ page.town }} 인근 신속한 배송을 원칙으로 합니다. 오토바이, 다마스, 라보 맞춤 배차 및 상업/주거지 안심 배송.">
+    <meta name="keywords" content="{{ page.town }} 퀵서비스, {{ page.town }} 퀵, {{ page.town }}오토바이퀵, {{ page.town }}다마스퀵, {{ page.town }}라보퀵, {{ page.town }}용달">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="에이플러스퀵서비스">
+    <meta name="theme-color" content="#004a99">
+    <link rel="preload" as="image" href="/img/quick.webp">
+    <link rel="icon" href="https://8222quick.com/img/favicon.png">
+    
+    <meta property="og:title" content="{{ page.town_full }} 퀵서비스 | 24시 에이플러스 {{ page.town }}퀵">
+    <meta property="og:description" content="{{ page.town_full }} 전지역 24시 실시간 배차, 신속한 배송 원칙">
+    <meta property="og:image" content="https://hongeun.8222quick.com/img/quick.jpg">
+    <meta property="og:type" content="website">
+
+    <style>
+        :root { --body-bg: #f4f7fa; --card-bg: #ffffff; --main-blue: #004a99; --accent-red: #d11212; --text-main: #333; --text-light: #666; }
+        body { margin: 0; padding: 0; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; line-height: 1.6; color: var(--text-main); background-color: var(--body-bg); }
+        .wrapper { width: 100%; max-width: 650px; margin: 40px auto; padding: 40px; box-sizing: border-box; background-color: var(--card-bg); box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 20px; }
+        @media (max-width: 650px) { .wrapper { margin: 0; border-radius: 0; padding: 20px; } .call-banner { font-size: 1.2rem; } }
+        header { text-align: center; margin-bottom: 30px; }
+        header h1 { font-size: 1.8rem; letter-spacing: -1px; margin: 0; color: #000; }
+        header h1 em { color: var(--main-blue); font-style: normal; }
+        header p { color: var(--text-light); margin-top: 5px; font-size: 1rem; }
+        .call-banner { position: sticky; top: 15px; z-index: 100; background: linear-gradient(135deg, var(--accent-red), #a00000); color: #fff; text-align: center; padding: 20px; border-radius: 15px; text-decoration: none; display: block; font-size: 1.5rem; font-weight: 800; box-shadow: 0 8px 25px rgba(209, 18, 18, 0.3); margin-bottom: 35px; transition: transform 0.2s; }
+        .call-banner span { font-size: 0.9rem; display: block; font-weight: normal; margin-bottom: 5px; opacity: 0.9; }
+        .highlight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 30px; }
+        .highlight-item { background: #f9fbfd; border: 1px solid #e1e8ef; padding: 15px 5px; border-radius: 12px; text-align: center; font-size: 0.85rem; }
+        .highlight-item strong { display: block; color: var(--main-blue); font-size: 1.1rem; margin-bottom: 3px; }
+        .info-section { background: #f8f9fa; border-radius: 12px; padding: 20px; margin-bottom: 30px; border-left: 5px solid var(--main-blue); }
+        .info-section h2 { font-size: 1.2rem; margin-top: 0; color: var(--main-blue); }
+        .info-section p { margin: 0; font-size: 1rem; color: #444; word-break: keep-all; }
+        .service-list { list-style: none; padding: 0; }
+        .service-list li { padding: 15px 0; border-bottom: 1px dotted #ddd; display: flex; justify-content: space-between; align-items: center; }
+        .service-list .vehicle { font-weight: bold; color: #000; font-size: 1.05rem; }
+        .service-list .desc { font-size: 0.9rem; color: var(--text-light); text-align: right; }
+        .btn-link { display: inline-block; padding: 12px 30px; background: #eee; color: #333; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 0.9rem; border: 1px solid #ddd; }
+        footer { text-align: center; padding: 30px 0 10px; font-size: 0.85rem; color: #999; border-top: 1px solid #eee; margin-top: 40px; }
+        .board-row:hover { background-color: #f8f9fa; }
+        .branch-list { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .branch-list li { font-size: 0.85rem; color: #555; background: #fff; border: 1px solid #eee; padding: 8px 10px; border-radius: 6px; }
+    </style>
+
+    <script type="application/ld+json">
+    {
+     "@context":"https://schema.org",
+     "@type":"LocalBusiness",
+     "name":"에이플러스 {{ page.town }} 퀵서비스",
+     "url": "https://call.8222quick.com{{ page.url }}",
+     "openingHours": "Mo-Su 00:00-24:00",
+     "priceRange": "전화문의",
+     "telephone":"1661-4262",
+     "areaServed":["{{ page.town }}", "{{ page.town_full }}"],
+     "description":"{{ page.town_full }} 전지역 24시간 퀵서비스 신속한 배송 원칙"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "{{ page.town }}에서 인접 지역까지 배송은 얼마나 걸리나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "에이플러스 {{ page.town }}퀵은 지리적 숙련도를 바탕으로 신속한 배송을 원칙으로 빠르게 이동합니다."
+        }
+      }, {
+        "@type": "Question",
+        "name": "{{ page.town }} 주택가 좁은 골목도 픽업이 가능한가요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "네, 고지대 주택가 등 오토바이가 필요한 좁은 골목 어디든 24시간 기사 배치를 통해 신속한 배송 시스템으로 안전하게 전달해 드립니다."
+        }
+      }]
+    }
+    </script>
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <p>{{ page.town }} 전지역 신속한 배송 원칙</p>
+        <h1><em>{{ page.town }} 퀵서비스</em> 24시</h1>
+    </header>
+
+    <a href="tel:1661-4262" class="call-banner">
+        <span>터치하면 바로 연결됩니다</span>
+        📞 1661-4262
+    </a>
+
+    <div class="highlight-grid">
+        <div class="highlight-item"><strong>신속한 배송</strong> 원칙</div>
+        <div class="highlight-item"><strong>인접배차</strong> 시스템</div>
+        <div class="highlight-item"><strong>카드/계산서</strong> 완벽지원</div>
+    </div>
+
+    <section>
+        <h2 style="font-size: 1.2rem; margin-bottom: 15px;">🚛 {{ page.town }} 맞춤 운송 차종</h2>
+        <ul class="service-list">
+            <li>
+                <span class="vehicle">🏍️ {{ page.town }} 오토바이 퀵</span>
+                <span class="desc">긴급 소화물 최우선 신속한 배송</span>
+            </li>
+            <li>
+                <span class="vehicle">🚙 {{ page.town }} 다마스 퀵</span>
+                <span class="desc">중소형 가전, 날씨에 안전한 안심 배송</span>
+            </li>
+            <li>
+                <span class="vehicle">🚚 {{ page.town }} 라보 / 1톤</span>
+                <span class="desc">기업 화물, 수도권 전역 전문 특송</span>
+            </li>
+        </ul>
+    </section>
+
+    <section style="margin-top:30px;">
+        <h2 style="font-size: 1.1rem; color: #000;">✅ 에이플러스 {{ page.town }}퀵만의 특장점</h2>
+        <div style="margin: 20px 0; text-align: center;">
+            <img src="/img/quick.jpg" alt="{{ page.town }} 퀵서비스 배차 시스템" style="max-width:100%; height:auto; border-radius:15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        </div>
+        <p style="font-size: 0.95rem; color: #666; line-height: 1.7; word-break: keep-all;">
+            {{ page.town }}은 숙련된 기사의 배차가 중요합니다. 에이플러스퀵의 베테랑 기사님들은 정체를 피해 최적의 길로 <strong>신속한 배송을 실현</strong>합니다. 24시간 실시간 배차 시스템을 통해 모든 행정 서비스를 지원합니다.
+        </p>
+    </section>
+
+    <section>
+        <h2 style="font-size: 1.2rem; margin-top: 30px;">📦 {{ page.town }} 주요 서비스 구역</h2>
+        <ul style="padding-left: 20px; color: #555; font-size: 0.95rem; line-height: 2;">
+            <li>중심 상권 및 비즈니스 밀집 지역 서류 배송</li>
+            <li>주요 교육 시설 및 캠퍼스 소화물 신속 배송</li>
+            <li>전통 시장 및 주택가 밀집 지역 생활 퀵</li>
+            <li>간선도로 진입권을 통한 광역 퀵서비스</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2 style="font-size: 1.2rem; margin-top: 30px;">🚦 {{ page.town }} 퀵서비스 운행 패턴</h2>
+        <p style="font-size: 0.95rem; color: #555; line-height: 1.8;">
+            ✔ 오전 시간대: 상가 물품 및 도심 방면 서류 배송 집중<br>
+            ✔ 오후 시간대: 소화물 및 인접 지역 연계 생활 퀵<br>
+            ✔ 야간 시간대: 긴급 물품 및 주말 안심 퀵서비스 상시 운영
+        </p>
+    </section>
+
+    <section style="background:#eef4fb;padding:25px;border-radius:12px;margin-top:30px;">
+        <h2 style="font-size: 1.1rem; color: #004a99; margin-top:0;">📈 최근 {{ page.town }} 이용 증가 지역</h2>
+        <ul style="padding-left: 20px; color: #444; font-size: 0.95rem; line-height: 2;">
+            <li>인근 신축 주거 단지 및 아파트 구역</li>
+            <li>주요 시장 주변 상권 및 배송 물량</li>
+            <li>교육 시설 및 학생 거주 밀집 지역</li>
+            <li>도로 진입로를 통한 장거리 화물 접수</li>
+        </ul>
+    </section>
+
+    <section class="faq-section">
+        <h2 style="margin-top:30px; font-size: 1.2rem;">❓ {{ page.town }} 퀵서비스 자주 묻는 질문</h2>
+        <h3 style="font-size: 1rem; margin-top: 20px; color: #000;"><strong>Q. {{ page.town }}에서 인접 지역까지 요금은 얼마인가요?</strong></h3>
+        <p style="font-size: 0.95rem; color: #555;">A. 인접 이동은 기본 요금제로 운영됩니다. 상세 요금은 1661-4262로 문의하시면 <strong>신속한 배송</strong> 견적을 안내해 드립니다.</p>
+        <h3 style="font-size: 1rem; margin-top: 20px; color: #000;"><strong>Q. 공휴일이나 심야에도 기사 배차가 가능한가요?</strong></h3>
+        <p style="font-size: 0.95rem; color: #555;">A. 네, 에이플러스 {{ page.town }}퀵은 365일 24시간 연중무휴 시스템으로 언제든지 접수 가능합니다.</p>
+        <h3 style="font-size: 1rem; margin-top: 20px; color: #000;"><strong>Q. 퀵서비스요금 카드결제는 되나요?</strong></h3>
+        <p style="font-size: 0.95rem; color: #555;">A. 네, 가능합니다. 전화 접수 시 말씀해 주시면 카드 승인 지원해 드립니다.</p>
+    </section>
+
+    <div style="text-align: center; margin-top: 25px;">
+        <a href="/money.html" class="btn-link">📊 {{ page.town }} 퀵서비스 요금조회</a>
+    </div>
+
+    <section style="margin-top: 40px; border-top: 2px solid #004a99; padding-top: 30px;">
+        <h2 style="font-size: 1.2rem; color: #000; margin-bottom: 15px;">📢 {{ page.town }} 실시간 배송 리포트</h2>
+        <div style="background: #fff; border: 1px solid #e1e8ef; border-radius: 12px; overflow: hidden;">
+            {% for post in site.posts limit:10 %}
+            <a href="{{ post.url }}" class="board-row" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid #f0f0f0; text-decoration: none;">
+                <div style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: 15px;">
+                    <span style="display: inline-block; padding: 2px 8px; background: #eef4fb; color: #004a99; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-right: 10px;">완료</span>
+                    <span style="font-size: 0.95rem; color: #333;">{{ post.title }}</span>
+                </div>
+                <span style="font-size: 0.85rem; color: #999;">{{ post.date | date: "%m-%d" }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    
+    <section class="info-section">
+        <h2>📍 {{ page.town_full }} 📍 에이플러스퀵 서울 경기 전지점 목록</h2>
+        <div class="post-content" style="margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 1rem; line-height: 1.8;">
+            {{ content }}
+        </div>
+        <p>
+            에이플러스퀵은 <strong>{{ page.town_full }}</strong> 전역에서 <strong>신속한 배송을 원칙으로 하여</strong> 고객님의 물품을 가장 효율적인 경로로 전달합니다.
+        </p>
+    </section>
+
+
+    <footer>
+        <p>에이플러스 {{ page.town }} 퀵서비스 센터 | 1661-4262</p>
+        <p>Copyright ⓒ 에이플러스퀵서비스 All Rights Reserved.</p>
+    </footer>
+</div>
+</body>
+</html>
+

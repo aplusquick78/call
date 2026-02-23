@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>비밀 게시판 관리</title>
+    <style>
+        body { font-family: 'Apple SD Gothic Neo', sans-serif; padding: 20px; background: #f0f2f5; }
+        .editor-box { max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h2 { color: #004a99; text-align: center; }
+        label { font-weight: bold; display: block; margin-top: 15px; }
+        input, textarea { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+        button { width: 100%; padding: 18px; background: #d11212; color: #fff; border: none; border-radius: 8px; font-size: 17px; font-weight: bold; cursor: pointer; margin-top: 25px; }
+        .copy-msg { color: #d11212; font-weight: bold; text-align: center; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="editor-box">
+        <h2>🚚 신속한 배송 리포트</h2>
+        
+        <label>제목 (지역명 포함)</label>
+        <input type="text" id="title" placeholder="예: 홍은동 퀵서비스 빠른배차">
+
+        <label>배송 리포트 내용</label>
+        <textarea id="content" rows="12" placeholder="배송 완료 내용을 길게 입력하셔도 됩니다."></textarea>
+
+        <button onclick="copyAndGo()">작성 완료 (복사 후 깃허브 이동)</button>
+        <p id="copyMsg" class="copy-msg">✅ 코드가 복사되었습니다! 깃허브 창에 붙여넣기(Ctrl+V) 하세요.</p>
+    </div>
+
+    <script>
+        function copyAndGo() {
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+            const now = new Date();
+            const dateStr = now.toISOString().split('T')[0];
+            const fileName = dateStr + '-' + Math.floor(Math.random() * 1000) + '.md';
+
+            // 📝 깃허브 저장소 정보 (사장님 정보 확인)
+            const repoOwner = "aplusquick78"; 
+            const repoName = "call";
+
+            const frontMatter = `---
+layout: post
+title: "${title}"
+date: ${dateStr}
+---
+
+${content}
+
+**신속한 배송** 에이플러스 퀵서비스입니다.`;
+
+            // 1. 클립보드에 코드 복사
+            navigator.clipboard.writeText(frontMatter).then(() => {
+                document.getElementById('copyMsg').style.display = 'block';
+                
+                // 2. 2초 뒤에 깃허브 새 파일 만들기 페이지로 이동 (값 없이 깔끔하게)
+                setTimeout(() => {
+                    const githubUrl = `https://github.com/${repoOwner}/${repoName}/new/main/_posts?filename=${fileName}`;
+                    window.open(githubUrl, '_blank');
+                }, 1000);
+            });
+        }
+    </script>
+</body>
+</html>

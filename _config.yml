@@ -1,0 +1,22 @@
+title: 에이플러스 퀵 신속한 배송
+url: "https://call.8222quick.com"
+baseurl: ""
+
+# 주소 끝에 index.html이 붙지 않아도 접속되게 설정
+permalink: /:path/
+
+# 빌드 설정
+markdown: kramdown
+highlighter: rouge
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+
+collections:
+  towns:
+    output: true
+
+plugins:
+  - jekyll-sitemap
+# 사이트 주소를 정확히 적어줘야 사이트맵 경로가 제대로 잡힙니다.
+url: "https://call.8222quick.com"    

@@ -1,0 +1,69 @@
+---
+layout: default
+---
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <title>{{ page.title }} | 에이플러스 퀵서비스</title>
+    <style>
+        :root { --body-bg: #f4f7fa; --card-bg: #ffffff; --main-blue: #004a99; --accent-red: #d11212; --text-main: #333; --text-light: #666; }
+        body { margin: 0; padding: 0; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; line-height: 1.6; color: var(--text-main); background-color: var(--body-bg); }
+        .wrapper { width: 100%; max-width: 650px; margin: 40px auto; padding: 40px; box-sizing: border-box; background-color: var(--card-bg); box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 20px; }
+        .call-banner { background: linear-gradient(135deg, var(--accent-red), #a00000); color: #fff; text-align: center; padding: 20px; border-radius: 15px; text-decoration: none; display: block; font-size: 1.5rem; font-weight: 800; margin-bottom: 35px; }
+        .post-content { font-size: 1.05rem; color: #444; line-height: 1.8; word-break: keep-all; }
+        .post-content h2 { color: var(--main-blue); font-size: 1.3rem; border-left: 5px solid var(--main-blue); padding-left: 10px; margin-top: 30px; }
+        
+        /* 추가된 최신글 목록 스타일 */
+        .recent-posts { margin-top: 50px; border-top: 2px solid var(--main-blue); padding-top: 20px; }
+        .recent-posts h3 { font-size: 1.1rem; color: var(--main-blue); margin-bottom: 15px; }
+        .recent-list { list-style: none; padding: 0; margin: 0; }
+        .recent-item { padding: 12px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; font-size: 0.95rem; }
+        .recent-item a { text-decoration: none; color: #444; font-weight: 500; }
+        .recent-item a:hover { color: var(--accent-red); }
+        .recent-date { color: #999; font-size: 0.85rem; }
+
+        footer { text-align: center; padding: 30px 0 10px; font-size: 0.85rem; color: #999; border-top: 1px solid #eee; margin-top: 40px; }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <header style="text-align:center; margin-bottom:30px;">
+        <p style="color:var(--main-blue); font-weight:bold;">실시간 배송 리포트</p>
+        <h1 style="font-size:1.6rem; margin:10px 0;">{{ page.title }}</h1>
+        <p style="font-size:0.9rem; color:#999;">작성일: {{ page.date | date: "%Y-%m-%d" }}</p>
+    </header>
+
+    <a href="tel:1661-4262" class="call-banner">
+        <span>신속한 배송 바로 연결</span>
+        📞 1661-4262
+    </a>
+
+    <article class="post-content">
+        {{ content }}
+    </article>
+
+    <div class="recent-posts">
+        <h3>🚚 다른 지역 신속 배송 현황</h3>
+        <ul class="recent-list">
+            {% for post in site.posts limit:10 %}
+            <li class="recent-item">
+                <a href="{{ post.url }}">• {{ post.title }}</a>
+                <span class="recent-date">{{ post.date | date: "%m-%d" }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="/" style="padding: 10px 20px; background: #eee; text-decoration: none; border-radius: 5px; color: #333; font-weight: bold;">메인으로 돌아가기</a>
+    </div>
+
+    <footer>
+        <p>에이플러스 퀵서비스 통합관제센터 | 1661-4262</p>
+        <p>Copyright ⓒ 에이플러스퀵서비스 All Rights Reserved.</p>
+    </footer>
+</div>
+</body>
+</html>

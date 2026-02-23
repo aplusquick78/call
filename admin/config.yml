@@ -1,0 +1,20 @@
+backend:
+  name: github
+  repo: aplusquick78/call # 예: aplus/8222quick
+  branch: main
+
+media_folder: "img" # 사진 올리면 저장될 곳
+public_folder: "/img"
+
+collections:
+  - name: "blog"
+    label: "신속한 배송 리포트 작성"
+    folder: "_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "레이아웃", name: "layout", widget: "hidden", default: "post"}
+      - {label: "제목 (지역+키워드)", name: "title", widget: "string"}
+      - {label: "날짜", name: "date", widget: "datetime"}
+
+      - {label: "본문 내용", name: "body", widget: "markdown"}

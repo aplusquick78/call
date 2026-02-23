@@ -1,0 +1,25 @@
+---
+layout: board
+---
+
+{% for region in site.data.towns %}
+  {% for district in region.districts %}
+    {% for town in district.towns %}
+      <div style="display:none;">
+        </div>
+    {% endfor %}
+  {% endfor %}
+{% endfor %}
+
+<div class="main_list">
+    <h1>수도권 전지역 신속한 배송 현황</h1>
+    <ul>
+    {% for region in site.data.towns %}
+      {% for district in region.districts %}
+        {% for town in district.towns %}
+          <li><a href="/{{ region.region }}/{{ district.name }}/{{ town }}/">{{ town }} 신속한 배송</a></li>
+        {% endfor %}
+      {% endfor %}
+    {% endfor %}
+    </ul>
+</div>
