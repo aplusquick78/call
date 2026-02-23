@@ -1,31 +1,64 @@
-name: Generate Town Folders
+name: Generate Town Pages
 
 on:
   push:
-    branches:
-      - main  # 사장님 브런치가 master라면 master로 수정
+    paths:
+      - '_data/towns.yml' # towns.yml이 수정될 때만 작동
+  workflow_dispatch: # 수동으로 실행하고 싶을 때 사용
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      - name: Install dependencies
+      - name: Install PyYAML
         run: pip install pyyaml
 
-      - name: Run Generator
-        run: python generator.py
-
-      - name: Commit and Push folders
+      - name: Run Generator Script
         run: |
-          git config --global user.name "GitHub Action"
-          git config --global user.email "action@github.com"
+          python - <<EOF
+          import yaml
+          import os
+          import shutil
+
+          # 1. 데이터 로드
+          with open('_data/towns.yml', 'r', encoding='utf-8') as f:
+              data = yaml.safe_load(f)
+
+          # 2. 기존 자동 생성된 폴더들 삭제 (정리)
+          # '퀵서비스'로 끝나는 폴더만 골라서 삭제하거나, 수동 관리가 필요하면 이 줄은 조정하세요.
+
+          # 3. 페이지 생성
+          for region_group in data:
+              region = region_group['region']
+              for district in region_group['districts']:
+                  dist_name = district['name']
+                  for town in district['towns']:
+                      folder_name = f"{town}퀵서비스"
+                      
+                      # 중복 방지 (신사동 등)
+                      if os.path.exists(folder_name):
+                          folder_name = f"{dist_name}{town}퀵서비스"
+                      
+                      os.makedirs(folder_name, exist_ok=True)
+                      
+                      content = f"---\nlayout: board\ntown: {town}\ntown_full: {region} {dist_name} {town}\n---"
+                      
+                      with open(f"{folder_name}/index.html", 'w', encoding='utf-8') as f:
+                          f.write(content)
+          EOF
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "신속하게 전지역 폴더 생성 완료" || exit 0
+          git commit -m "Automated town pages generation" || exit 0
           git push
