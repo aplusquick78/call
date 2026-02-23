@@ -23,3 +23,4 @@ collections:
 # 피드 플러그인 세부 설정 (주소를 강제로 고정)
 feed:
   path: /feed.xml
+# 피드 주소 갱신용 주석: 2026-02-23-Final
