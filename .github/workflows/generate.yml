@@ -1,10 +1,15 @@
-name: Generate Town Pages
+name: Generate Town Pages & Auto Post
 
 on:
+  schedule:
+    # 매시간 정각(0분)에 실행하도록 설정
+    # 파이썬 코드에서 08~22시 & 하루 10개 제한을 걸었으므로 
+    # 24시간 내내 돌려도 알아서 시간과 개수를 맞춰서 포스팅합니다.
+    - cron: '0 * * * *'
   push:
     paths:
       - '_data/towns.yml'
-  workflow_dispatch:
+  workflow_dispatch: # 사장님이 수동으로 누를 때도 필요하니 유지하세요!
 
 jobs:
   build:
