@@ -2,16 +2,16 @@ name: A-Plus Auto Poster
 
 on:
   schedule:
-    # 매시간 정각에 실행 (파이썬 로직이 08~22시/10개 제한을 관리함)
     - cron: '0 * * * *'
-  workflow_dispatch: # 수동 실행 버튼
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Python 설정
         uses: actions/setup-python@v4
         with:
@@ -21,13 +21,17 @@ jobs:
         run: pip install requests beautifulsoup4
         
       - name: 로봇 가동
-        # 사장님 파일명인 autobot.py로 정확히 맞췄습니다.
         run: python autobot.py
         
-      - name: 변경사항 저장 및 사이트 업데이트
+      - name: 변경사항 확인 및 푸시
         run: |
           git config --global user.name "AutoBot"
           git config --global user.email "bot@8222quick.com"
           git add _posts/*.md
-          git commit -m "신속한 배송 자동 포스팅 완료" || echo "추가할 내용 없음"
-          git push
+          # 파일이 새로 생겼을 때만 커밋하도록 설정
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "신속한 배송 자동 포스팅 완료"
+            git push
+          else
+            echo "새로 생성된 포스팅 파일이 없습니다."
+          fi
