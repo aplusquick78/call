@@ -2,8 +2,9 @@ name: A-Plus Auto Poster
 
 on:
   schedule:
-    - cron: '0 0 * * 1,3,5' # 매주 월, 수, 금 오전 9시 실행 (한국시간)
-  workflow_dispatch: # 사장님이 원할 때 버튼 눌러서 바로 실행 가능
+    # 매시간 정각에 실행 (파이썬 로직이 08~22시/10개 제한을 관리함)
+    - cron: '0 * * * *'
+  workflow_dispatch: # 수동 실행 버튼
 
 jobs:
   build:
@@ -20,6 +21,7 @@ jobs:
         run: pip install requests beautifulsoup4
         
       - name: 로봇 가동
+        # 사장님 파일명인 autobot.py로 정확히 맞췄습니다.
         run: python autobot.py
         
       - name: 변경사항 저장 및 사이트 업데이트
