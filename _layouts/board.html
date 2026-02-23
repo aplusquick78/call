@@ -199,22 +199,41 @@ layout: null
         <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
 
         <div class="town-links">
-            <h4 style="margin-bottom: 15px;">📍 지역별 에이플러스 퀵서비스 바로가기</h4>
-            <ul style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
-                {% for region_group in site.data.towns %}
-                    {% for district in region_group.districts %}
-                        {% for town in district.towns %}
-                            <li style="font-size: 0.85rem;">
-                                <a href="/{{ town }}퀵서비스/" style="text-decoration: none; color: #666; background: #f9f9f9; padding: 4px 8px; border-radius: 4px; border: 1px solid #eee;">
-                                    {{ town }}퀵서비스
-                                </a>
-                            </li>
-                        {% endfor %}
-                    {% endfor %}
+    <h4 style="margin-bottom: 15px;">📍 지역별 에이플러스 퀵서비스 바로가기</h4>
+    <ul style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+        {% for region_group in site.data.towns %}
+            {% assign reg = region_group.region | replace: "광역시", "" | replace: "특별시", "" | replace: "경기도", "경기" | strip %}
+            <li style="font-size: 0.85rem; font-weight: bold;">
+                <a href="/{{ reg }}퀵서비스/" style="text-decoration: none; color: #fff; background: #ff5722; padding: 4px 8px; border-radius: 4px; border: 1px solid #e64a19;">
+                    {{ reg }}퀵서비스
+                </a>
+            </li>
+
+            {% for district in region_group.districts %}
+                {% assign dist_name = district.name | strip %}
+                {% if dist_name contains "시" and dist_name.size > 2 %}
+                    {% assign d_short = dist_name | replace: "시", "" %}
+                {% else %}
+                    {% assign d_short = dist_name %}
+                {% endif %}
+                
+                <li style="font-size: 0.85rem;">
+                    <a href="/{{ d_short }}퀵서비스/" style="text-decoration: none; color: #333; background: #eee; padding: 4px 8px; border-radius: 4px; border: 1px solid #ccc;">
+                        {{ d_short }}퀵서비스
+                    </a>
+                </li>
+
+                {% for town in district.towns %}
+                    <li style="font-size: 0.85rem;">
+                        <a href="/{{ town }}퀵서비스/" style="text-decoration: none; color: #666; background: #f9f9f9; padding: 4px 8px; border-radius: 4px; border: 1px solid #eee;">
+                            {{ town }}퀵서비스
+                        </a>
+                    </li>
                 {% endfor %}
-            </ul>
-        </div>
-    </section>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+</div>
 
 
     <footer>
@@ -224,6 +243,7 @@ layout: null
 </div>
 </body>
 </html>
+
 
 
 
