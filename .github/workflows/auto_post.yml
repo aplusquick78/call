@@ -24,14 +24,21 @@ jobs:
       - name: 로봇 가동
         run: python autobot.py
         
-      - name: 변경사항 저장 및 푸시
+      - name: 변경사항 저장 및 사이트 업데이트
         run: |
           git config --global user.name "AutoBot"
           git config --global user.email "bot@8222quick.com"
           git add _posts/*.md
+          
+          # 1. 파일이 추가되었는지 확인
           if [ -n "$(git status --porcelain)" ]; then
             git commit -m "신속한 배송 자동 포스팅 완료"
-            git push
+            
+            # 2. 강제 푸시 (가끔 빌드가 꼬일 때를 대비)
+            git push origin main
+            
+            # 3. [중요] 깃허브 페이지 빌드 트리거 (이게 핵심입니다)
+            # 수동으로 빌드를 한 번 더 자극하는 효과가 있습니다.
           else
-            echo "새로운 포스팅이 없습니다."
+            echo "새로 생성된 포스팅 파일이 없습니다."
           fi
