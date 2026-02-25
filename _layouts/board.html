@@ -88,8 +88,12 @@ layout: null
 <body>
 <div class="wrapper">
     <header>
-        <p>{{ page.town }} 전지역 신속한 배송 원칙</p>
-        <h1><em>빠른배송 {{ page.town }} 퀵서비스</em> 24시퀵</h1>
+    <p>{{ page.town }} 전지역 신속한 배송 원칙</p>
+    <h1>
+        <a href="https://8222quick.com" style="text-decoration: none; color: inherit;">
+            <em>빠른배송 {{ page.town }} 퀵서비스</em> 24시퀵
+        </a>
+    </h1>
     </header>
 
     <a href="tel:1661-4262" class="call-banner">
@@ -234,7 +238,10 @@ layout: null
         {% endfor %}
     </ul>
 </div>
-
+       
+<div style="text-align: center; margin: 30px 0;">
+    <a href="https://8222quick.com" class="btn-link" style="background: var(--main-blue); color: #fff; border: none;">🏠 빠른배송퀵 메인화면</a>
+</div>
 
     <footer>
         <p>빠른배송 {{ page.town }} 퀵서비스 센터 | 1661-4262</p>
@@ -243,6 +250,7 @@ layout: null
 </div>
 </body>
 </html>
+
 
 
 
